@@ -15,6 +15,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import component.AppPage;
 import component.LoginPage;
+import utilities.BrowserFactory;
 import utilities.ConfigReader;
 import utilities.DriverFactory;
 import utilities.WaitMethods;
@@ -22,16 +23,12 @@ import utilities.WaitMethods;
 public class LoginTest {
 
 	private WebDriver driver;
-	private ChromeOptions options;
-	private WebDriverWait wait;
 	private LoginPage loginPage;
-	private AppPage appPage;
 
 	@Before
 	public void setUp() {
 		if (driver == null) {
-			driver = DriverFactory.createDriver(9300);
-			wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+			driver = DriverFactory.createDriver(BrowserFactory.port);
 		}
 	}
 
@@ -39,9 +36,8 @@ public class LoginTest {
 	public void test01() {
 		loginPage = new LoginPage(driver);
 		WaitMethods.waitForVisibility(driver, By.xpath("//p-dropdown[@id='location']/div/div[3]/span"), 15);
-		loginPage.login(20);
+		loginPage.login(loginPage.count);
 		System.out.println(driver.getTitle());
-
 	}
 
 	@After

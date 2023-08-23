@@ -18,8 +18,10 @@ public class DriverFactory {
 	}
 	
 	public static void closeDriver(WebDriver driver) {
-	    if(driver != null) {
-	      driver.quit(); 
-	    }
-	  }
+		if (driver != null) {
+			driver.quit();
+		}
+	}
+	
+	
 }

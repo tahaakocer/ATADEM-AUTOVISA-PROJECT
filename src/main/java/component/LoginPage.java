@@ -56,7 +56,7 @@ public class LoginPage extends BasePage {
 
 	public WebElement noElement;
 
-	public void login(int num) {
+	public void login(Integer num) {
 
 		click(locationElement);
 		WaitMethods.waitForVisibility(driver, By.cssSelector("li[aria-label='Istanbul']"), 15);

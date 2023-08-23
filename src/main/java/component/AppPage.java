@@ -5,6 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.SourceDataLine;
 import javax.swing.plaf.basic.BasicCheckBoxMenuItemUI;
 
 import org.openqa.selenium.By;
@@ -29,10 +34,12 @@ public class AppPage extends BasePage {
 	public String appNextXpath = "//span[@class='ui-button-text ui-clickable']";
 	public String OKxpath = "//span[normalize-space()='OK']";
 	public String yesXpath = "//span[normalize-space()='Yes']";
+	public String nextMonthXpath = "";
 	public boolean next = false;
-	public boolean refresh = false;
+	public boolean refresh;
 	public boolean running = true;
-	public Integer numOfApp;
+	public boolean autoGet = true;
+	public static Integer numOfApp;
 
 	public AppPage(WebDriver driver) {
 		super(driver);
@@ -52,6 +59,16 @@ public class AppPage extends BasePage {
 
 	@FindBy(xpath = "//span[@class='ui-button-text ui-unselectable-text']")
 	public List<WebElement> appTimeElements;
+	
+	@Override
+	public void refreshPage() {
+		System.out.println("sayfa yenileniyor.");
+		driver.navigate().refresh();
+		WaitMethods.waitForPageToLoad(driver, 30);
+		WaitMethods.bekle(4);
+		System.out.println("sayfa yenilendi.");
+		refresh = true;
+	}
 
 	public void setDateMap() {
 		for (WebElement element : dateElements) {
@@ -74,7 +91,7 @@ public class AppPage extends BasePage {
 	}
 
 	public void getAppointment(Integer count, String day) {
-		
+
 		List<WebElement> AppElements = driver.findElements(By.xpath(appTimeXpath));
 		numOfApp = AppElements.size();
 
@@ -95,16 +112,34 @@ public class AppPage extends BasePage {
 			}
 
 		} else {
-			
+
 			clickDay(day);
 			System.out.println("Butona tiklandi, 1 saniye bekletilecek");
 			WaitMethods.bekle(1);
 			getAppointment(count, day);
 		}
 	}
-	public void refreshPage() {
-		driver.navigate().refresh();
-		refresh = true;
-		WaitMethods.bekle(5);
+	
+	public void Sound() throws LineUnavailableException {
+		float frequency = 240; // 440 Hz
+		int durationMs = 500; // 1 saniye
+		byte[] buffer = new byte[durationMs * 8 * 2]; // PCM verileri için buffer boyutunu hesaplar
+
+		for (int i = 0; i < buffer.length; i++) {
+			double angle = i / (8000.0 / frequency) * 2.0 * Math.PI;
+			short amplitude = (short) (Math.sin(angle) * 32767);
+			buffer[i++] = (byte) (amplitude & 0xFF);
+			buffer[i] = (byte) (amplitude >> 8);
+		}
+
+		AudioFormat format = new AudioFormat(8000, 16, 1, true, true);
+		DataLine.Info info = new DataLine.Info(SourceDataLine.class, format);
+		SourceDataLine line = (SourceDataLine) AudioSystem.getLine(info);
+
+		line.open(format);
+		line.start();
+		line.write(buffer, 0, buffer.length);
+		line.drain();
+		line.close();
 	}
 }

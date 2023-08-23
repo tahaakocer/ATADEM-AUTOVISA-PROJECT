@@ -8,13 +8,13 @@ public class ConfigReader {
 	public static Properties properties;
 	
 	static {
-		String filePath = "src/main/java/config.properties";
+		String filePath = "./config.properties";
 		
 		try {
 			FileInputStream fileInputStream = new FileInputStream(filePath);
 			properties = new Properties();
 			properties.load(fileInputStream);
-		
+			fileInputStream.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}	

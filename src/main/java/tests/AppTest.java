@@ -4,6 +4,8 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.sound.sampled.LineUnavailableException;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,58 +17,79 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import component.AppPage;
 import component.LoginPage;
+import utilities.MailSender;
+import utilities.WaitMethods;
+import utilities.BrowserFactory;
 import utilities.DriverFactory;
 
 public class AppTest {
-	
+
 	private WebDriver driver;
 	private ChromeOptions options;
 	private WebDriverWait wait;
 	private AppPage appPage;
-	private String day = "31";
-	
+
 	@Before
 	public void setUp() {
 		if (driver == null) {
-			driver = DriverFactory.createDriver(9300);
+			driver = DriverFactory.createDriver(BrowserFactory.port);
 			wait = new WebDriverWait(driver, Duration.ofSeconds(15));
 		}
 	}
-	
+
 	@Test
 	public void test01() {
 		appPage = new AppPage(driver);
+		
+		Integer sayac = 0;
 		LocalDateTime lastRefresh = LocalDateTime.now();
+		appPage.refresh = true;
+		
 		while (appPage.running) {
-			appPage.clickDay(day);
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+			if(appPage.next == true && appPage.refresh == true) {
+				appPage.waitNClick(By.xpath(appPage.nextMonthXpath));
+				WaitMethods.bekle(1);
+				appPage.refresh = false;
 			}
-			if(!driver.findElements(By.xpath(appPage.yesXpath)).isEmpty()) {
+			appPage.clickDay(appPage.day);
+			sayac++;
+			WaitMethods.bekle(1);
+			if (!driver.findElements(By.xpath(appPage.yesXpath)).isEmpty()) {
 				appPage.clickByXpath(appPage.yesXpath);
 			}
 			if (!driver.findElements(By.xpath(appPage.headXpath)).isEmpty()) {
-				
+
 				LocalDateTime now = LocalDateTime.now();
 				System.out.println(now + ": randevu yok");
-				if(now.isAfter(lastRefresh.plusMinutes(8))) {
+				if (now.isAfter(lastRefresh.plusMinutes(8))) {
 					lastRefresh = now;
 					appPage.refreshPage();
 				}
+
+			} else if (!driver.findElements(By.xpath(appPage.appTimeXpath)).isEmpty()) {
+
+				Thread emailThread = new Thread(() -> {
+					try {
+						appPage.Sound();
+						MailSender.sendMail(appPage.day);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				});
+				emailThread.start();
 				
-			} else if(!driver.findElements(By.xpath(appPage.appTimeXpath)).isEmpty()) {
-				
-				System.out.println("randevu var");
-				appPage.getAppointment(null, day);
+				if(appPage.autoGet == true) {
+					appPage.getAppointment(appPage.count, appPage.day);
+				}
+				System.out.println(AppPage.numOfApp + " adet randevu bulundu!");
+				appPage.running = false;
 			}
 
 		}
 	}
-	
+
 	@After
 	public void tearDown() {
-	  DriverFactory.closeDriver(driver);
-	} 
+		DriverFactory.closeDriver(driver);
+	}
 }
