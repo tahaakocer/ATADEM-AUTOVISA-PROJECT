@@ -26,14 +26,12 @@ public class AppTest {
 
 	private WebDriver driver;
 	private ChromeOptions options;
-	private WebDriverWait wait;
 	private AppPage appPage;
 
 	@Before
 	public void setUp() {
 		if (driver == null) {
 			driver = DriverFactory.createDriver(BrowserFactory.port);
-			wait = new WebDriverWait(driver, Duration.ofSeconds(15));
 		}
 	}
 
@@ -47,11 +45,9 @@ public class AppTest {
 		
 		while (appPage.running) {
 			if(appPage.next == true && appPage.refresh == true) {
-				appPage.waitNClick(By.xpath(appPage.nextMonthXpath));
-				WaitMethods.bekle(1);
-				appPage.refresh = false;
+				appPage.clickDayOfNextMonth();
 			}
-			appPage.clickDay(appPage.day);
+ 			appPage.clickDay(appPage.day);
 			sayac++;
 			WaitMethods.bekle(1);
 			if (!driver.findElements(By.xpath(appPage.yesXpath)).isEmpty()) {
@@ -68,6 +64,9 @@ public class AppTest {
 
 			} else if (!driver.findElements(By.xpath(appPage.appTimeXpath)).isEmpty()) {
 
+				if(appPage.autoGet == true) {
+					appPage.getAppointment(appPage.count, appPage.day);
+				}
 				Thread emailThread = new Thread(() -> {
 					try {
 						appPage.Sound();
@@ -77,12 +76,9 @@ public class AppTest {
 					}
 				});
 				emailThread.start();
-				
-				if(appPage.autoGet == true) {
-					appPage.getAppointment(appPage.count, appPage.day);
-				}
 				System.out.println(AppPage.numOfApp + " adet randevu bulundu!");
 				appPage.running = false;
+				WaitMethods.bekle(10);
 			}
 
 		}

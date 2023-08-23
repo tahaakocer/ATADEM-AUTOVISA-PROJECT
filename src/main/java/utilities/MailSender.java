@@ -37,7 +37,10 @@ public class MailSender {
 		username = ConfigReader.getProperty("username");
 		password = ConfigReader.getProperty("password");
 		recipient = ConfigReader.getProperty("recipient");
-		
+		System.out.println(username);
+		System.out.println(password);
+		System.out.println(recipient);
+
 		Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
 			protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
 				return new javax.mail.PasswordAuthentication(username, password);

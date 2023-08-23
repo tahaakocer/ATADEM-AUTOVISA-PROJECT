@@ -1,22 +1,14 @@
 package tests;
 
-import java.time.Duration;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import component.AppPage;
 import component.LoginPage;
 import utilities.BrowserFactory;
-import utilities.ConfigReader;
 import utilities.DriverFactory;
 import utilities.WaitMethods;
 

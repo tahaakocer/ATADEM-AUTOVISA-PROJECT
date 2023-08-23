@@ -25,17 +25,14 @@ import utilities.WaitMethods;
 public class AppPage extends BasePage {
 
 	private WebDriver driver;
-	private JavascriptExecutor js;
-	private WebDriverWait wait;
 	private Map<String, WebElement> dateMap;
 
 	public String appTimeXpath = "//span[@class='ui-button-text ui-unselectable-text']";
 	public String headXpath = "//h2[normalize-space()='No slots available']";
 	public String appNextXpath = "//span[@class='ui-button-text ui-clickable']";
+	public String dateElementsXpath = "//table[@class='ui-datepicker-calendar']/tbody/tr/td/a";
 	public String OKxpath = "//span[normalize-space()='OK']";
 	public String yesXpath = "//span[normalize-space()='Yes']";
-	public String nextMonthXpath = "";
-	public boolean next = false;
 	public boolean refresh;
 	public boolean running = true;
 	public boolean autoGet = true;
@@ -45,8 +42,6 @@ public class AppPage extends BasePage {
 		super(driver);
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
-		js = (JavascriptExecutor) driver;
-		wait = new WebDriverWait(driver, Duration.ofSeconds(15));
 		dateMap = new HashMap<>();
 		setDateMap();
 	}
@@ -60,6 +55,9 @@ public class AppPage extends BasePage {
 	@FindBy(xpath = "//span[@class='ui-button-text ui-unselectable-text']")
 	public List<WebElement> appTimeElements;
 	
+	@FindBy( xpath = "//span[@class='ui-datepicker-next-icon pi pi-chevron-right']")
+	public WebElement nextMonthElement;
+	
 	@Override
 	public void refreshPage() {
 		System.out.println("sayfa yenileniyor.");
@@ -71,6 +69,12 @@ public class AppPage extends BasePage {
 	}
 
 	public void setDateMap() {
+		if(next == true) {
+			dateElements.clear();
+			dateMap.clear();
+			dateElements = driver.findElements(By.xpath(dateElementsXpath));
+		}
+		
 		for (WebElement element : dateElements) {
 			String day = element.getText();
 			dateMap.put(day, element);
@@ -84,6 +88,13 @@ public class AppPage extends BasePage {
 	public void clickDay(String day) {
 		WebElement dateElement = getDateElement(day);
 		click(dateElement);
+	}
+	
+	public void clickDayOfNextMonth() {
+		click(nextMonthElement);
+		WaitMethods.bekle(1);
+		setDateMap();
+		refresh = false;
 	}
 
 	public boolean checkIt() {
