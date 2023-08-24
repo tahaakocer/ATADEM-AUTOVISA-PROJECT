@@ -1,29 +1,15 @@
 package component;
 
-import java.time.Duration;
-
-import javax.swing.plaf.basic.BasicCheckBoxMenuItemUI;
-
-import org.junit.Test;
-import org.junit.validator.PublicClassValidator;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import net.bytebuddy.asm.MemberSubstitution.FieldValue;
-import utilities.DriverFactory;
 import utilities.WaitMethods;
 
 public class LoginPage extends BasePage {
 
 	private WebDriver driver;
-	private JavascriptExecutor js;
-	private WebDriverWait wait;
 	private String agency = "Atadem";
 	private String email = "taha.kocer317@gmail.com";
 
@@ -31,9 +17,6 @@ public class LoginPage extends BasePage {
 		super(driver);
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
-		js = (JavascriptExecutor) driver;
-		wait = new WebDriverWait(driver, Duration.ofSeconds(15));
-
 	}
 
 	@FindBy(xpath = "//p-dropdown[@id='location']/div/div[3]/span")
@@ -66,13 +49,13 @@ public class LoginPage extends BasePage {
 		String noElementXpath = "//li[@aria-label='" + num + "']";
 		WebElement noElement = driver.findElement(By.xpath(noElementXpath));
 		click(noElement);
-		
+
 		travelAgencyElement.sendKeys(agency);
 		input(travelAgencyElement, agency);
-		
+
 		emailIdElement.sendKeys(email);
 		input(emailIdElement, email);
-		
+
 		confirmEmailIdElement.sendKeys(email);
 		input(confirmEmailIdElement, email);
 	}

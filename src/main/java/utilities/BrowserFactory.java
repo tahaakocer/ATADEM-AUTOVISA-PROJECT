@@ -2,6 +2,9 @@ package utilities;
 
 import java.io.IOException;
 
+import org.junit.After;
+import org.junit.Test;
+
 public class BrowserFactory {
 	
 	final public static Integer port = 9222;
@@ -13,7 +16,8 @@ public class BrowserFactory {
 	final private static String commandPriority2 = "wmic process where name=\"chromedriver.exe\" CALL setpriority realtime";
 	final private static String commandTaskKill = "Taskkill /f /im \"chromedriver.exe\"";
 	
-	public static void runBrowser() {
+	@Test
+	public  void runBrowser() {
 		ProcessBuilder debuggerBuilder;
 		Process process;
 		try {
@@ -27,8 +31,8 @@ public class BrowserFactory {
 			e.printStackTrace();
 		}
 	}
-
-	public static void setPriority() {
+	@After
+	public  void setPriority() {
 		ProcessBuilder priorityBuilder1, priorityBuilder2;
 		Process process;
 		priorityBuilder1 = new ProcessBuilder(cmd, parameter, commandPriority1);

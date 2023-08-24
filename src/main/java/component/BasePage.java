@@ -1,7 +1,5 @@
 package component;
 
-import java.util.concurrent.CountDownLatch;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -14,7 +12,7 @@ public class BasePage {
 	private WebDriver driver;
 	public boolean next = false;
 	public Integer count = 5;
-	public String day = "24";
+	public String day = "25";
 	
 	public BasePage(WebDriver driver) {
 		this.driver = driver;
@@ -33,6 +31,14 @@ public class BasePage {
 		((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
 	}
 
+	public void clickableWaitNClick(By locator) {
+		WebElement element =  WaitMethods.waitForClickablility(driver, locator, 15);
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+	}
+	public void clickableWaitNClick(WebElement element) {
+		WaitMethods.waitForClickablility(driver, element, 15);
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+	}
 	public void clickByXpath(String xpath) {
 		WebElement element = driver.findElement(By.xpath(xpath));
 		((JavascriptExecutor) driver).executeScript("arguments[0].click()", element);

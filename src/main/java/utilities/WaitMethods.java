@@ -40,6 +40,14 @@ public class WaitMethods {
         }
     }
     
+    public static void msBekle(long saniye) {
+        try {
+            Thread.sleep(saniye);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+        
 	//===============Explicit Wait==============//
 	public static WebElement waitForVisibility(WebDriver driver,WebElement element, int timeout) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
