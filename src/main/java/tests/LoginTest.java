@@ -20,7 +20,9 @@ public class LoginTest {
 	@Before
 	public void setUp() {
 		if (driver == null) {
-			driver = DriverFactory.createDriver(BrowserFactory.port);
+			BrowserFactory browserFactory = new BrowserFactory();
+			browserFactory.runBrowser(0);
+			driver = DriverFactory.createDriver(browserFactory.port[0]);
 		}
 	}
 

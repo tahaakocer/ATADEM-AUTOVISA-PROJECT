@@ -23,7 +23,8 @@ public class AppTest {
 	@Before
 	public void setUp() {
 		if (driver == null) {
-			driver = DriverFactory.createDriver(BrowserFactory.port);
+			BrowserFactory browserFactory = new BrowserFactory();
+			driver = DriverFactory.createDriver(browserFactory.port[0]);
 		}
 	}
 

@@ -27,8 +27,6 @@ public class FormPage extends BasePage {
 	@FindBy(xpath = "//p-dropdown[starts-with(@id, 'nationality')]/div/div[3]/span")
 	public List<WebElement> nationalityElements;
 
-	// //li[@aria-label='Turkey']
-
 	@FindBy(xpath = "//input[starts-with(@id, 'lastName')]")
 	public List<WebElement> lastNameElements;
 
@@ -43,8 +41,6 @@ public class FormPage extends BasePage {
 
 	@FindBy(xpath = "//p-dropdown[starts-with(@id, 'visaType')]/div/div[3]/span")
 	public List<WebElement> visaTypeElements;
-
-	// //li[@aria-label='Business']
 
 	@FindBy(xpath = "//input[starts-with(@id, 'contactNo.')]")
 	public List<WebElement> phoneNumElements;

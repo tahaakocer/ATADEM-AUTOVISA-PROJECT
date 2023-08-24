@@ -12,7 +12,7 @@ public class BasePage {
 	private WebDriver driver;
 	public boolean next = false;
 	public Integer count = 5;
-	public String day = "25";
+	public String day = "27";
 	
 	public BasePage(WebDriver driver) {
 		this.driver = driver;
