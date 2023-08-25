@@ -104,7 +104,10 @@ public class FormPage extends BasePage {
 			System.out.println("Form dolduruldu. 2.5 saniye bekletilecek");
 			
 		}
-		clickableWaitNClick(proceedElement);
+		
+		click(proceedElement);
+		clickByXpath(proceedXpath);
+		
 	}
 
 }

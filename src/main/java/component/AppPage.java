@@ -30,9 +30,7 @@ public class AppPage extends BasePage {
 	public String OKxpath = "//span[normalize-space()='OK']";
 	public String yesXpath = "//span[normalize-space()='Yes']";
 	public boolean refresh;
-	public boolean running = true;
-	public boolean autoGet = true;
-	public static Integer numOfApp;
+
 
 	public AppPage(WebDriver driver) {
 		super(driver);

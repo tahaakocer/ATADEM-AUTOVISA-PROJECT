@@ -2,14 +2,17 @@ package tests;
 
 import java.time.LocalDateTime;
 
+import javax.swing.SwingWorker;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.devtools.v115.autofill.Autofill;
 
 import component.AppPage;
-
+import component.BasePage;
 import utilities.MailSender;
 import utilities.WaitMethods;
 import utilities.BrowserFactory;
@@ -24,61 +27,87 @@ public class AppTest {
 	public void setUp() {
 		if (driver == null) {
 			BrowserFactory browserFactory = new BrowserFactory();
-			driver = DriverFactory.createDriver(browserFactory.port[0]);
+			driver = DriverFactory.createDriver(BrowserFactory.port[BasePage.profile]);
+			System.out.println("apptest driver baslatildi. \n" + driver);
 		}
 	}
 
 	@Test
 	public void test01() {
-		appPage = new AppPage(driver);
+		SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
 
-		Integer sayac = 0;
-		LocalDateTime lastRefresh = LocalDateTime.now();
-		appPage.refresh = true;
+			@Override
+			protected Void doInBackground() throws Exception {
 
-		while (appPage.running) {
-			if (appPage.next == true && appPage.refresh == true) {
-				appPage.clickDayOfNextMonth();
-			}
-			appPage.clickDay(appPage.day);
-			sayac++;
-			WaitMethods.bekle(1);
-			if (!driver.findElements(By.xpath(appPage.yesXpath)).isEmpty()) {
-				appPage.clickByXpath(appPage.yesXpath);
-			}
-			if (!driver.findElements(By.xpath(appPage.headXpath)).isEmpty()) {
+				appPage = new AppPage(driver);
 
-				LocalDateTime now = LocalDateTime.now();
-				System.out.println(now + ": randevu yok");
-				if (now.isAfter(lastRefresh.plusMinutes(8))) {
-					lastRefresh = now;
-					appPage.refreshPage();
-				}
+				Integer sayac = 0;
+				LocalDateTime lastRefresh = LocalDateTime.now();
+				appPage.refresh = true;
 
-			} else if (!driver.findElements(By.xpath(appPage.appTimeXpath)).isEmpty()) {
-
-				if (appPage.autoGet == true) {
-					appPage.getAppointment(appPage.count, appPage.day);
-				}
-				Thread emailThread = new Thread(() -> {
-					try {
-						appPage.Sound();
-						MailSender.sendMail(appPage.day);
-					} catch (Exception e) {
-						e.printStackTrace();
+				while (AppPage.running) {
+					if (AppPage.next == true && appPage.refresh == true) {
+						appPage.clickDayOfNextMonth();
 					}
-				});
-				emailThread.start();
-				System.out.println(AppPage.numOfApp + " adet randevu bulundu!");
-				appPage.running = false;
-				WaitMethods.bekle(10);
+					appPage.clickDay(AppPage.day);
+					sayac++;
+					WaitMethods.bekle(1);
+					if (!driver.findElements(By.xpath(appPage.yesXpath)).isEmpty()) {
+						appPage.clickByXpath(appPage.yesXpath);
+					}
+					if (!driver.findElements(By.xpath(appPage.headXpath)).isEmpty()) {
+
+						LocalDateTime now = LocalDateTime.now();
+						System.out.println(now + ": randevu yok");
+						if (now.isAfter(lastRefresh.plusMinutes(8))) {
+							lastRefresh = now;
+							appPage.refreshPage();
+						}
+
+					} else if (!driver.findElements(By.xpath(appPage.appTimeXpath)).isEmpty()) {
+
+						if (AppPage.autoGet == true) {
+							appPage.getAppointment(AppPage.count, AppPage.day);
+						}
+						Thread emailThread = new Thread(() -> {
+							try {
+								appPage.Sound();
+								MailSender.sendMail(AppPage.day);
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						});
+						emailThread.start();
+
+						System.out.println(AppPage.numOfApp + " adet randevu bulundu!");
+						AppPage.running = false;
+						tearDown();
+						
+						WaitMethods.bekle(5);
+						if (AppPage.autoFill == true) {
+							FormTest formTest = new FormTest();
+							formTest.setUp();
+							formTest.test();
+							formTest.tearDown();
+						}
+					}
+
+				}
+
+				return null;
 			}
 
-		}
+			@Override
+			protected void done() {
+			}
+		};
+		worker.execute();
+
 	}
 
 	@After
 	public void tearDown() {
 		DriverFactory.closeDriver(driver);
+		System.out.println("apptest driver durduruldu.");
 	}
 }

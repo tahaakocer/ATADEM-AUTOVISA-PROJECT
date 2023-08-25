@@ -7,16 +7,16 @@ import org.junit.Test;
 
 public class BrowserFactory {
 
-	public Integer[] port;
-	public String[] commandRun;
-	final private String cmd = "cmd.exe";
-	final private String parameter = "/c";
-	final private String commandPriority1 = "wmic process where name=\"chrome.exe\" CALL setpriority realtime";
-	final private String commandPriority2 = "wmic process where name=\"chromedriver.exe\" CALL setpriority realtime";
-	final private String commandTaskKill = "Taskkill /f /im \"chromedriver.exe\"";
+	public static Integer[] port;
+	public static String[] commandRun;
+	final static private String cmd = "cmd.exe";
+	final static private String parameter = "/c";
+	final static private String commandPriority1 = "wmic process where name=\"chrome.exe\" CALL setpriority realtime";
+	final static private String commandPriority2 = "wmic process where name=\"chromedriver.exe\" CALL setpriority realtime";
+	final static private String commandTaskKill = "Taskkill /f /im \"chromedriver.exe\"";
 
 	public BrowserFactory() {
-		
+
 		port = new Integer[3];
 		commandRun = new String[3];
 		port[0] = 9222;
@@ -24,16 +24,14 @@ public class BrowserFactory {
 		port[2] = 9444;
 		commandRun[0] = "chrome.exe -remote-debugging-port=" + port[0]
 				+ " --user-data-dir=\"C:\\Selenium\\Chrome_Test_Profile\"";
-		commandRun[1] = "chrome.exe -remote-debugging-port=" + port[1]
-				+ " --user-data-dir=\"C:\\Selenium\\Chrome3\"";
+		commandRun[1] = "chrome.exe -remote-debugging-port=" + port[1] + " --user-data-dir=\"C:\\Selenium\\Chrome3\"";
 		commandRun[2] = "chrome.exe -remote-debugging-port=" + port[2]
 				+ " --user-data-dir=\"C:\\Selenium\\ChromeDeneme\"";
-		
-		
+
 	}
 
 	@Test
-	public void runBrowser(Integer profile) {
+	public static void runBrowser(Integer profile) {
 		ProcessBuilder debuggerBuilder;
 		Process process;
 		try {
@@ -47,7 +45,7 @@ public class BrowserFactory {
 	}
 
 	@After
-	public void setPriority() {
+	public static void setPriority() {
 		ProcessBuilder priorityBuilder1, priorityBuilder2;
 		Process process;
 		priorityBuilder1 = new ProcessBuilder(cmd, parameter, commandPriority1);
@@ -62,7 +60,7 @@ public class BrowserFactory {
 		System.out.println("Priorty is set.");
 	}
 
-	public void taskKill() {
+	public static void taskKill() {
 		ProcessBuilder processBuilder;
 		Process process;
 		try {
