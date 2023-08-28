@@ -10,14 +10,15 @@ import utilities.WaitMethods;
 public class BasePage {
 	
 	private WebDriver driver;
+	public static Integer profile = 0;
+
 	public static boolean running = true;
-	public static boolean autoGet = true;
+	public static boolean autoGet = false;
 	public static boolean next = false;
 	public static boolean autoFill = false;
 	public static Integer numOfApp;
-	public static Integer count = 5;
-	public static String day = "27";
-	public static Integer profile = 1;
+	public static Integer count;
+	public static String day;
 	
 	public BasePage(WebDriver driver) {
 		this.driver = driver;

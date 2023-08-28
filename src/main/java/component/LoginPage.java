@@ -5,18 +5,26 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+
+import utilities.ConfigReader;
 import utilities.WaitMethods;
 
 public class LoginPage extends BasePage {
 
 	private WebDriver driver;
 	private String agency = "Atadem";
-	private String email = "taha.kocer317@gmail.com";
+	private String[] email;
 
 	public LoginPage(WebDriver driver) {
 		super(driver);
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
+		email = new String[3];
+		email[0] = ConfigReader.getProperty("email1");
+		email[1] = ConfigReader.getProperty("email2");
+		email[2] = ConfigReader.getProperty("email3");
+
+		
 	}
 
 	@FindBy(xpath = "//p-dropdown[@id='location']/div/div[3]/span")
@@ -53,10 +61,10 @@ public class LoginPage extends BasePage {
 		travelAgencyElement.sendKeys(agency);
 		input(travelAgencyElement, agency);
 
-		emailIdElement.sendKeys(email);
-		input(emailIdElement, email);
+		emailIdElement.sendKeys(email[BasePage.profile]);
+		input(emailIdElement, email[BasePage.profile]);
 
-		confirmEmailIdElement.sendKeys(email);
-		input(confirmEmailIdElement, email);
+		confirmEmailIdElement.sendKeys(email[BasePage.profile]);
+		input(confirmEmailIdElement, email[BasePage.profile]);
 	}
 }

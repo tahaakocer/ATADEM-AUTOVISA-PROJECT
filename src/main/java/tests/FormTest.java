@@ -1,8 +1,5 @@
 package tests;
 
-import javax.sound.sampled.LineUnavailableException;
-import javax.swing.SwingWorker;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

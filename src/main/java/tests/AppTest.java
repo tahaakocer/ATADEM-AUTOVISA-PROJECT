@@ -9,7 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.devtools.v115.autofill.Autofill;
 
 import component.AppPage;
 import component.BasePage;

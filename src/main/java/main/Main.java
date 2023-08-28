@@ -4,12 +4,6 @@ package main;
  * @author Taha Kocer
  */
 
-/* eğer seçilen adet kadar randevu açılmadıysa, randevuyu alana kadar tekrar kontrol et. (cuma günü için)
- * 
- * bunu opsiyonel hale getir.
- * 
- * form doldurma işlemi el ile müdahele edildiği zaman çalışmıyor.
- * */
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -24,7 +18,6 @@ import javax.swing.text.DefaultCaret;
 
 import component.AppPage;
 import component.BasePage;
-import component.LoginPage;
 import tests.AppTest;
 import tests.FormTest;
 import tests.LoginTest;
@@ -44,9 +37,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 public class Main extends JFrame {
+	
 	private JPanel contentPane;
 	private JComboBox comboBox_Adet;
 	private JComboBox comboBox;
+	private JComboBox comboBox_Port;
 	private final JLabel lblDay;
 	private final JCheckBox chckboxNextMonth;
 	private final JButton btnStart;
@@ -88,6 +83,10 @@ public class Main extends JFrame {
 		Integer[] days = new Integer[31];
 		for (int i = 0; i < 31; i++) {
 			days[i] = i + 1;
+		}
+		Integer[] portsIntegers = new Integer[3];
+		for (int i = 0; i < 3; i++) {
+			portsIntegers[i] = i + 1;
 		}
 
 		// --------------------------icon--------------------------
@@ -136,6 +135,15 @@ public class Main extends JFrame {
 		contentPane.setLayout(null);
 
 		setResizable(false);
+
+		// ---------------------- PORT -------------------------------
+		JLabel lblPort = new JLabel("Port :");
+		lblPort.setForeground(new Color(255, 255, 255));
+		lblPort.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPort.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblPort.setBounds(0, 3, 68, 26);
+		contentPane.add(lblPort);
+
 		// ------------------------------ANA PANEL-----------------------------
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 90, 420, 530);
@@ -175,23 +183,12 @@ public class Main extends JFrame {
 		btnStartBrowser.setBounds(104, 73, 203, 50);
 		panel.add(btnStartBrowser);
 
-		comboBox_Adet = new JComboBox(adet);
-		comboBox_Adet.setBounds(207, 22, 100, 40);
-		panel.add(comboBox_Adet);
-		comboBox_Adet.setIgnoreRepaint(true);
-		comboBox_Adet.setForeground(new Color(0, 0, 0));
-
 		// ------------------------ADET LABELI---------------------------
 		JLabel lblAdet = new JLabel("Adet : ");
 		lblAdet.setBounds(107, 22, 90, 40);
 		panel.add(lblAdet);
 		lblAdet.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAdet.setFont(new Font("Tahoma", Font.BOLD, 18));
-		// ---------------------------COMBOBOXLAR----------------------------
-		comboBox = new JComboBox(days);
-		comboBox.setBounds(207, 157, 100, 40);
-		panel.add(comboBox);
-		comboBox.setEnabled(false);
 
 		// ----------------------------GÜN LABELİ---------------------------
 		lblDay = new JLabel("Gün : ");
@@ -200,6 +197,25 @@ public class Main extends JFrame {
 		lblDay.setEnabled(false);
 		lblDay.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDay.setFont(new Font("Tahoma", Font.BOLD, 18));
+
+		// ---------------------------COMBOBOXLAR----------------------------
+		comboBox_Port = new JComboBox(portsIntegers);
+		comboBox_Port.setBounds(66, 3, 50, 26);
+		contentPane.add(comboBox_Port);
+		comboBox_Port.setSelectedIndex(0);
+		comboBox_Port.setIgnoreRepaint(true);
+		comboBox_Port.setForeground(Color.BLACK);
+
+		comboBox_Adet = new JComboBox(adet);
+		comboBox_Adet.setBounds(207, 22, 100, 40);
+		panel.add(comboBox_Adet);
+		comboBox_Adet.setIgnoreRepaint(true);
+		comboBox_Adet.setForeground(new Color(0, 0, 0));
+
+		comboBox = new JComboBox(days);
+		comboBox.setBounds(207, 157, 100, 40);
+		panel.add(comboBox);
+		comboBox.setEnabled(false);
 
 		// ------------------------BİR SONRAKİ AY CHECKBOXI------------------------
 		chckboxNextMonth = new JCheckBox("Bir Sonraki Ay");
@@ -270,6 +286,49 @@ public class Main extends JFrame {
 		lblOtomatikVizeRandevu.setAlignmentX(0.5f);
 
 		// -----------------------------ACTION LISTENERLAR-------------------------
+		comboBox_Port.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				BasePage.profile = Integer.parseInt(comboBox_Port.getSelectedItem().toString());
+				BasePage.profile--;
+				System.out.println("BasePage.profile = " + BasePage.profile);
+
+			}
+		});
+
+		btnStartBrowser.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				setClickable(true);
+				BrowserFactory.runBrowser(BasePage.profile);
+				lblInfo.setText("<html>Çift Faktörlü Doğrulamayı geçiniz.</html>");
+				BasePage.count = Integer.parseInt(comboBox_Adet.getSelectedItem().toString());
+				System.out.println("BasePage.count = " + BasePage.count);
+				loginTest = new LoginTest();
+				loginTest.setUp();
+				loginTest.test01();
+				loginTest.tearDown();
+
+			}
+		});
+		chckboxNextMonth.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AppPage.next = chckboxNextMonth.isSelected();
+				System.out.println("nextMonth = " + AppPage.next);
+			}
+		});
+
+		chckboxGetApp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				AppPage.autoGet = chckboxGetApp.isSelected();
+				System.out.println("autoGet = " + AppPage.autoGet);
+			}
+		});
+
+		chckboxGetForm.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				AppPage.autoFill = chckboxGetForm.isSelected();
+				System.out.println("autoFill : " + AppPage.autoFill);
+			}
+		});
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				BasePage.day = comboBox.getSelectedItem().toString();
@@ -293,41 +352,6 @@ public class Main extends JFrame {
 				lblInfo.setText("Durduruldu.");
 			}
 		});
-		chckboxNextMonth.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				AppPage.next = chckboxNextMonth.isSelected();
-				System.out.println("nextMonth = " + AppPage.next);
-			}
-		});
-
-		chckboxGetApp.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				AppPage.autoGet = chckboxGetApp.isSelected();
-				System.out.println("autoGet = " + AppPage.autoGet);
-			}
-		});
-
-		chckboxGetForm.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				AppPage.autoFill = chckboxGetForm.isSelected();
-				System.out.println("autoFill : " + AppPage.autoFill);
-			}
-		});
-
-		btnStartBrowser.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				setClickable(true);
-				BrowserFactory.runBrowser(BasePage.profile);
-				lblInfo.setText("<html>Çift Faktörlü Doğrulamayı geçiniz.</html>");
-				BasePage.count = Integer.parseInt(comboBox_Adet.getSelectedItem().toString());
-				System.out.println("BasePage.count = " + BasePage.count);
-				loginTest = new LoginTest();
-				loginTest.setUp();
-				loginTest.test01();
-				loginTest.tearDown();
-
-			}
-		});
 
 		btnFillApp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -337,7 +361,7 @@ public class Main extends JFrame {
 				formTest.setUp();
 				formTest.test();
 				formTest.tearDown();
-				
+
 			}
 		});
 
