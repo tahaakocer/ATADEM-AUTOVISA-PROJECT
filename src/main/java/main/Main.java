@@ -52,6 +52,7 @@ public class Main extends JFrame {
 	private LoginTest loginTest;
 	private AppTest appTest;
 	private FormTest formTest;
+	private JLabel lblOtomatikVizeRandevu;
 
 	/**
 	 * Launch the application.
@@ -141,7 +142,7 @@ public class Main extends JFrame {
 		lblPort.setForeground(new Color(255, 255, 255));
 		lblPort.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPort.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblPort.setBounds(0, 3, 68, 26);
+		lblPort.setBounds(0, 30, 68, 26);
 		contentPane.add(lblPort);
 
 		// ------------------------------ANA PANEL-----------------------------
@@ -200,7 +201,7 @@ public class Main extends JFrame {
 
 		// ---------------------------COMBOBOXLAR----------------------------
 		comboBox_Port = new JComboBox(portsIntegers);
-		comboBox_Port.setBounds(66, 3, 50, 26);
+		comboBox_Port.setBounds(67, 30, 50, 26);
 		contentPane.add(comboBox_Port);
 		comboBox_Port.setSelectedIndex(0);
 		comboBox_Port.setIgnoreRepaint(true);
@@ -274,7 +275,7 @@ public class Main extends JFrame {
 		lblInfo.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		// --------------------------------BAŞLIK -----------------------------
-		JLabel lblOtomatikVizeRandevu = new JLabel("Otomatik Vize Randevu Botu");
+		lblOtomatikVizeRandevu = new JLabel("<html><center>Rusya Vize Randevu Sistemi<br>Web Otomasyonu</center></html>");
 		lblOtomatikVizeRandevu.setBounds(0, 0, 1001, 90);
 		contentPane.add(lblOtomatikVizeRandevu);
 		lblOtomatikVizeRandevu.setOpaque(true);
