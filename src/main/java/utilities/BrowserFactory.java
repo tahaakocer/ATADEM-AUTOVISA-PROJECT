@@ -23,10 +23,10 @@ public class BrowserFactory {
 		port[1] = 9333;
 		port[2] = 9444;
 		commandRun[0] = "chrome.exe -remote-debugging-port=" + port[0]
-				+ " --user-data-dir=\"C:\\Selenium\\Chrome_Test_Profile\"";
-		commandRun[1] = "chrome.exe -remote-debugging-port=" + port[1] + " --user-data-dir=\"C:\\Selenium\\Chrome3\"";
+				+ " --user-data-dir=\"C:\\Selenium\\Chrome1\"";
+		commandRun[1] = "chrome.exe -remote-debugging-port=" + port[1] + " --user-data-dir=\"C:\\Selenium\\Chrome2\"";
 		commandRun[2] = "chrome.exe -remote-debugging-port=" + port[2]
-				+ " --user-data-dir=\"C:\\Selenium\\ChromeDeneme\"";
+				+ " --user-data-dir=\"C:\\Selenium\\Chrome3\"";
 
 	}
 
