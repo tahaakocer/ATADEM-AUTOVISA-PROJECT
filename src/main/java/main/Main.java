@@ -49,6 +49,7 @@ public class Main extends JFrame {
 	private final JCheckBox chckboxGetApp;
 	private final JCheckBox chckboxGetForm;
 	private final JButton btnFillApp;
+	public static JLabel lblInfo;
 	private LoginTest loginTest;
 	private AppTest appTest;
 	private FormTest formTest;
@@ -265,7 +266,7 @@ public class Main extends JFrame {
 		btnFillApp.setEnabled(false);
 
 		// --------------------BİLGİLENDİRME LABELİ-------------------------
-		final JLabel lblInfo = new JLabel(
+		lblInfo = new JLabel(
 				"<html> Browser'ı debugging mod'ta başlatmak için <b>\"Browser'ı Başlat\"</b> butonuna tıklayın.<br>(Standart kullandığınız browser'da çalışmaz.) </html>");
 		lblInfo.setBounds(39, 448, 352, 60);
 		panel.add(lblInfo);

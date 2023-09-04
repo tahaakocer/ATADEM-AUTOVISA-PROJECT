@@ -12,6 +12,7 @@ import org.openqa.selenium.WebDriver;
 
 import component.AppPage;
 import component.BasePage;
+import main.Main;
 import utilities.MailSender;
 import utilities.WaitMethods;
 import utilities.BrowserFactory;
@@ -28,6 +29,7 @@ public class AppTest {
 			BrowserFactory browserFactory = new BrowserFactory();
 			driver = DriverFactory.createDriver(BrowserFactory.port[BasePage.profile]);
 			System.out.println("apptest driver baslatildi. \n" + driver);
+			Main.lblInfo.setText("Randevu Aranıyor..");
 		}
 	}
 
@@ -61,6 +63,7 @@ public class AppTest {
 						if (now.isAfter(lastRefresh.plusMinutes(8))) {
 							lastRefresh = now;
 							appPage.refreshPage();
+							test01();
 						}
 
 					} else if (!driver.findElements(By.xpath(appPage.appTimeXpath)).isEmpty()) {
@@ -108,5 +111,6 @@ public class AppTest {
 	public void tearDown() {
 		DriverFactory.closeDriver(driver);
 		System.out.println("apptest driver durduruldu.");
+		Main.lblInfo.setText("Durduruldu.");
 	}
 }

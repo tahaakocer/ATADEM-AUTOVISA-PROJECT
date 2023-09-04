@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 
 import component.BasePage;
 import component.FormPage;
+import main.Main;
 import utilities.BrowserFactory;
 import utilities.DriverFactory;
 
@@ -22,6 +23,7 @@ public class FormTest {
 			BrowserFactory browserFactory = new BrowserFactory();
 			driver = DriverFactory.createDriver(BrowserFactory.port[BasePage.profile]);
 			System.out.println("formtest driver baslatildi.\n" + driver);
+			Main.lblInfo.setText("Form doldurma başlatıldı..");
 
 		}
 	}
@@ -38,6 +40,8 @@ public class FormTest {
 	@After
 	public void tearDown() {
 		DriverFactory.closeDriver(driver);
+		Main.lblInfo.setText("Durduruldu.");
+
 	}
 
 }

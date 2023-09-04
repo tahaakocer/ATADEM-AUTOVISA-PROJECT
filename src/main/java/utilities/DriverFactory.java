@@ -7,6 +7,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 public class DriverFactory {
 	public static WebDriver createDriver(Integer port) {
+		
 		System.setProperty("webdriver.chrome.driver", "C:\\Selenium\\chromedriver.exe");
 		ChromeOptions options = new ChromeOptions();
 		ChromeDriverService service = new ChromeDriverService.Builder().withLogOutput(System.out).build();
@@ -15,6 +16,7 @@ public class DriverFactory {
 		options.addArguments("--priority=high");
 
 		return new ChromeDriver(service, options);
+		
 	}
 	
 	public static void closeDriver(WebDriver driver) {
