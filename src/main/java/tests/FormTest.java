@@ -1,8 +1,5 @@
 package tests;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 
 import component.BasePage;
@@ -16,7 +13,7 @@ public class FormTest {
 	private WebDriver driver;
 	private FormPage formPage;
 	
-	@Before
+//	@Before
 	public void setUp() {
 		if (driver == null) {
 	
@@ -28,7 +25,7 @@ public class FormTest {
 		}
 	}
 
-	@Test
+//	@Test
 	public void test() {
 	
 
@@ -37,7 +34,7 @@ public class FormTest {
 
 	}
 
-	@After
+//	@After
 	public void tearDown() {
 		DriverFactory.closeDriver(driver);
 		Main.lblInfo.setText("Durduruldu.");

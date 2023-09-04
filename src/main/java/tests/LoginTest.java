@@ -1,9 +1,5 @@
 package tests;
 
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -18,7 +14,7 @@ public class LoginTest {
 	private WebDriver driver;
 	private LoginPage loginPage;
 
-	@Before
+//	@Before
 	public void setUp() {
 		if (driver == null) {
 			BrowserFactory browserFactory = new BrowserFactory();
@@ -27,7 +23,7 @@ public class LoginTest {
 		}
 	}
 
-	@Test
+//	@Test
 	public void test01() {
 		loginPage = new LoginPage(driver);
 		WaitMethods.waitForVisibility(driver, By.xpath("//p-dropdown[@id='location']/div/div[3]/span"), 15);
@@ -35,7 +31,7 @@ public class LoginTest {
 		System.out.println(driver.getTitle());
 	}
 
-	@After
+//	@After
 	public void tearDown() {
 	  DriverFactory.closeDriver(driver);
 	  System.out.println("logintest driver durduruldu.");

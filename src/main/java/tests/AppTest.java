@@ -3,10 +3,6 @@ package tests;
 import java.time.LocalDateTime;
 
 import javax.swing.SwingWorker;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -23,7 +19,7 @@ public class AppTest {
 	private WebDriver driver;
 	private AppPage appPage;
 
-	@Before
+//	@Before
 	public void setUp() {
 		if (driver == null) {
 			BrowserFactory browserFactory = new BrowserFactory();
@@ -33,7 +29,7 @@ public class AppTest {
 		}
 	}
 
-	@Test
+//	@Test
 	public void test01() {
 		SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
 
@@ -107,7 +103,7 @@ public class AppTest {
 
 	}
 
-	@After
+//	@After
 	public void tearDown() {
 		DriverFactory.closeDriver(driver);
 		System.out.println("apptest driver durduruldu.");

@@ -2,9 +2,6 @@ package utilities;
 
 import java.io.IOException;
 
-import org.junit.After;
-import org.junit.Test;
-
 public class BrowserFactory {
 
 	public static Integer[] port;
@@ -30,7 +27,7 @@ public class BrowserFactory {
 
 	}
 
-	@Test
+//	@Test
 	public static void runBrowser(Integer profile) {
 		ProcessBuilder debuggerBuilder;
 		Process process;
@@ -44,7 +41,7 @@ public class BrowserFactory {
 		}
 	}
 
-	@After
+//	@After
 	public static void setPriority() {
 		ProcessBuilder priorityBuilder1, priorityBuilder2;
 		Process process;
