@@ -5,10 +5,12 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
+
 public class DriverFactory {
 	public static WebDriver createDriver(Integer port) {
 		
-		System.setProperty("webdriver.chrome.driver", "C:\\Selenium\\chromedriver.exe");
+	    WebDriverManager.chromedriver().setup();
 		ChromeOptions options = new ChromeOptions();
 		ChromeDriverService service = new ChromeDriverService.Builder().withLogOutput(System.out).build();
 		options.setExperimentalOption("debuggerAddress", "localhost:" + port); // açık pencere portu
